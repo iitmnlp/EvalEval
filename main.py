@@ -19,28 +19,156 @@ def _generate(args, batch):
         'QG': QuestionGenTempaltes()
     }
     
+    # TODO : add drop_adjective template, drop_named_entities
     _task = task_list[args.task]
-    ## TODO : need to split this into multiple dictonaies based on task as some templates
-    ## aen't defined foR some tasks
-    template_list ={
-    #     'Fluency': [
-    #             _task.jumble,
-    #             _task.subject_veb_dis,
-    #             _task.typos,
-    #     ],
-    # 
-        'Invariance' : [
-                _task.synonym_adjective,
-                _task.contrations,
-                _task.expansions,
-                _task.number2words
-        ],
-    }
-    #     'Adequacy': [
-    #         _task.add_negation,
-    #         _task.drop_phrases
+    if args.task =='MT':
+        template_list ={
+            'Fluency': [
+                    _task.jumble,
+                    _task.subject_veb_dis,
+                    _task.typos,
+                    _task.remove_punct,
+                    _task.drop_stopwords,
+                    _task.add_negation,
+                    _task.hyponyms,
 
-    #     ],
+            ],
+            'Invariance' : [
+                    _task.synonym_adjective,
+                    _task.antonym_adjective,
+                    _task.contrations,
+                    _task.expansions,
+                    _task.number2words
+            ],
+            'Adequacy': [
+                _task.add_negation,
+                _task.drop_phrases,
+                _task.repeat_phrases,
+                _task.change_numeric,
+                _task.change_names,
+                _task.only_stop,
+
+
+        ]
+        }
+    elif args.task =='IC':
+        template_list ={
+            'Fluency': [
+                    _task.jumble,
+                    _task.subject_veb_dis,
+                    _task.typos,
+                    _task.remove_punct,
+                    _task.drop_stopwords,
+                    _task.add_negation,
+                    _task.hyponyms,
+
+            ],
+            'Invariance' : [
+                    _task.synonym_adjective,
+                    _task.antonym_adjective,
+                    _task.contrations,
+                    _task.expansions,
+                    _task.number2words
+            ],
+            'Correctness':[
+            _task.change_gender,
+            _task.change_attributes,
+            _task.change_object_order,
+            _task.replace_object_with_synonym
+
+            ],
+            'Throughness':[
+                _task.drop_objects,
+                _task.repeat_object
+            ],
+        }
+    elif args.task =='AS':
+        template_list ={
+            'Fluency': [
+                    _task.jumble,
+                    _task.subject_veb_dis,
+                    _task.typos,
+                    _task.remove_punct,
+                    _task.drop_stopwords,
+                    _task.add_negation,
+                    _task.hyponyms,
+
+            ],
+            'Invariance' : [
+                    _task.synonym_adjective,
+                    _task.antonym_adjective,
+                    _task.contrations,
+                    _task.expansions,
+                    _task.number2words
+            ],
+            'Coherence': [
+            _task.sentence_reorder,
+            _task.repeat_sentences
+        ],
+            'Relevance':[
+            _task.change_names
+        ],
+            'Coverage':[
+            _task.drop_phrases,
+        ],
+        'Calrity':[
+            _task.replace_nouns_prouns
+        ],
+        }
+    elif args.task =='D2T':
+        template_list ={
+            'Fluency': [
+                    _task.jumble,
+                    _task.subject_veb_dis,
+                    _task.typos,
+                    _task.no_punct,
+                    _task.drop_stopwords,
+                    _task.add_negation,
+                    _task.hyponyms,
+
+            ],
+            'Invariance' : [
+                    _task.synonym_adjective,
+                    _task.antonym_adjective,
+                    _task.contrations,
+                    _task.expansions,
+                    _task.number2words
+            ],
+            'Relevance':[
+            _task.change_names,
+            _task.change_numeric
+            ],
+            'Coverage':[
+            _task.drop_phrases,
+            _task.repeat_phrases
+            ]
+        }
+    elif args.task =='QG':
+        template_list ={
+            'Fluency': [
+                    _task.jumble,
+                    _task.subject_veb_dis,
+                    _task.typos,
+                    _task.no_punct,
+                    _task.drop_stopwords,
+                    _task.add_negation,
+                    _task.hyponyms,
+
+            ],
+            'Invariance' : [
+                    _task.synonym_adjective,
+                    _task.antonym_adjective,
+                    _task.contrations,
+                    _task.expansions,
+                    _task.number2words
+            ],
+            'Answerability':[
+            _task.change_question_word,
+            _task.remove_question_word,
+            _task.change_question_to_assetion,
+            _task.change_names
+            ]
+        }
     #     'Informativeness': [
     #         _task.hyponyms
     #     ],
@@ -70,7 +198,13 @@ def _generate(args, batch):
     #     ]
     # }
     data =[]
-    templates = template_list[args.linguistic_criteria]
+    if args.linguistic_criteria == 'all':
+        templates = [j for i in template_list.values() for j in i]
+    else:
+        try:
+            templates = template_list[args.linguistic_criteria]
+        except:
+            print('Please use the criteria mentioned in the list')
     for operand in templates:
         out = map(operand, batch)
         for i,j in zip(out, batch):
@@ -88,7 +222,7 @@ if __name__ =='__main__':
     parser.add_argument('--task', type=str, 
                             choices=['IC','MT','QG','D2T','DG','AS'], 
                             help='The nlp task in consideration')
-    parser.add_argument('--linguistic_criteria',
+    parser.add_argument('--linguistic_criteria', default= 'all',
                                 choices=['Fluency','Invariance','Adequacy','Informativeness','Coherence',
                                 'Answerability','Relevance','Correctness','Throughness','Coverage'] ,
                                 type=str, help='The linguistic dimension')
