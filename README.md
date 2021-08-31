@@ -14,7 +14,7 @@ Perturbation Checklist for Evaluating NLG Evaluation Metrics
   - [Summarization](#Summarization)
   - [Question Generation](#question-generation)
 - [Human Evaluations](#human-evaluations)
-- [Metircs](#metircs)
+- [Metrics](#metircs)
 - [Citation](#citation)
 
 ## Overview
@@ -28,7 +28,7 @@ TODO
 Our code is based on python 3.7 and to install all the dependencies run  <br>
 
 ```
-pip install - requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Load the data
@@ -130,7 +130,7 @@ python3 main.py \
 
 The human annotations collected for the templates can be downloaded from [here](#gdrive-link)
 
-## Metircs
+## Metrics
 
 Coming soon ..
 

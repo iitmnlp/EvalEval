@@ -37,7 +37,7 @@ class BaseTemplate:
         random.shuffle(tokens)
         return ' '.join(tokens)
 
-    def remove_stopwods(self, sent):
+    def drop_stopwods(self, sent):
         all_stopwords = self.nlp.Defaults.stop_words
         x  = [word.text for word in self.nlp(sent) if not word.text in all_stopwords]
         return ' '.join(x)
@@ -251,7 +251,7 @@ class ImageCapTemplates(BaseTemplate):
 
         return out if flag  else sent
 
-    def remove_objects(self, sent):
+    def drop_objects(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
         sen = []
         l = len(pos)
@@ -366,7 +366,7 @@ class QuestionGenTempaltes(BaseTemplate):
         out = " ".join(wo for wo in sen)
         return out if out!=sent else sent
 
-    def modify_names(self, sent):
+    def change_names(self, sent):
         return Perturb.perturb(sent, Perturb.change_names, n=1).data[0]
 
     def change_question_to_assetion(self, sent):
@@ -410,7 +410,7 @@ class TranslationTemplates(BaseTemplate):
     def change_numeric(self, sent):
         return Perturb.perturb(sent, Perturb.change_number, n=1)[0]
 
-    def modify_names(self, sent):
+    def change_names(self, sent):
         return Perturb.perturb(sent, Perturb.change_names, n=1)[0]
 
     def repeat_phrases(self, sent):
