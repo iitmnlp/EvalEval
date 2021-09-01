@@ -50,7 +50,7 @@ class QuestionGenTempaltes(BaseTemplate):
             sent2.append(w)
         ss = " ".join(x for x in sent)
         ss2 = " ".join(x for x in sent2)
-        temp = Editor.template(ss, remove_duplicates=True, nsamples=1)
+        temp = Editor().template(ss, remove_duplicates=True, nsamples=1)
         out = temp['data'][0]
         if out.lower() != ss2.lower():
             out = out.replace("?",".")

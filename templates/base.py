@@ -3,7 +3,6 @@ import spacy
 from checklist.editor import Editor
 from checklist.perturb import Perturb
 import random
-from spacy.matcher import Matcher
 from num2words import num2words
 import nltk
 from initialise import spacy_nlp
@@ -52,7 +51,7 @@ class BaseTemplate:
             w, p = pos[i]
             if p in ['JJ', 'JJR', 'JJS']:
                 try:
-                    syn = Editor.synonyms(sent, w)
+                    syn = Editor().synonyms(sent, w)
                 except:
                     syn = []
                 if len(syn) > 0:
@@ -75,7 +74,7 @@ class BaseTemplate:
             w, p = pos[i]
             if p in ['JJ', 'JJR', 'JJS']:
                 try:
-                    syn = Editor.antonyms(sent, w)
+                    syn = Editor().antonyms(sent, w)
                 except:
                     syn = []
                 if len(syn) > 0:
@@ -98,7 +97,7 @@ class BaseTemplate:
             w, p = pos[i]
             if p in ['NN','NNP','VB','VBP']:
                 try:
-                    syn = Editor.hyponyms(sent, w)
+                    syn = Editor().hyponyms(templates =sent, word = w)
                 except:
                     syn = []
                 if len(syn) > 0:

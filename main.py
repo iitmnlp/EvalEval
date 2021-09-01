@@ -28,20 +28,20 @@ def _generate(args, batch):
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
-                _task.hyponyms,            # TODO fix bug
+                _task.hyponyms,            
                 _task.drop_adjectives
 
             ],
             'Invariance' : [
-                _task.synonym_adjective,  # TODO fix bug
-                _task.antonym_adjective,  # TODO fix bug
+                _task.synonym_adjective,  
+                _task.antonym_adjective,  
                 _task.contrations,
                 _task.expansions,
                 _task.number2words
             ],
             'Adequacy': [
                 _task.add_negation,  
-                #_task.drop_phrases,  TODO
+                _task.drop_phrases,  
                 _task.repeat_phrases,
                 _task.change_numeric, 
                 _task.change_names, 
@@ -112,7 +112,7 @@ def _generate(args, batch):
                 _task.drop_phrases,
         ],
             'Calrity':[
-                _task.replace_nouns_prouns  # TODO fix bugs
+                _task.replace_nouns_prouns  
             ],
         }
     elif args.task =='D2T':
@@ -165,7 +165,7 @@ def _generate(args, batch):
             'Answerability':[
                 _task.change_question_word,
                 _task.remove_question_word,
-                #_task.change_question_to_assetion,  TODO fix bug
+                _task.change_question_to_assetion, 
                 _task.change_names
             ]
         }
@@ -198,7 +198,7 @@ if __name__ =='__main__':
                             help='The nlp task in consideration')
     parser.add_argument('--criteria',
                                 choices=['Fluency','Invariance','Adequacy','Informativeness','Coherence',
-                                'Answerability','Relevance','Correctness','Throughness','Coverage','Calrity'] ,
+                                'Answerability','Relevance','Correctness','Throughness','Coverage','Calrity','all'] ,
                                 type=str, help='The linguistic dimension')
     parser.add_argument('--ref_file', type=str, help='input reference file(supports cvs/jsonl')
     parser.add_argument('--output_file', default='output.jsonl', type=str, help='output file')

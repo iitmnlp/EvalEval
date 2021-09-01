@@ -1,6 +1,3 @@
-import sys
-sys.path.append('/Users/tanay/Documents/research_work/EvalEval')
-
 import random
 import nltk
 from nltk.tokenize import sent_tokenize
@@ -49,7 +46,8 @@ class SummTemplates(BaseTemplate):
                 i+=1
         if flag == 1:
             out = " ".join(w for w in sen)
-        return out if flag  else sent
+            return out 
+        return sent
 
     def drop_phrases(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
@@ -70,7 +68,8 @@ class SummTemplates(BaseTemplate):
         sen.append(pos[l-1][0])
         if flag==1: 
             out = " ".join(w for w in sen)
-        return out if flag  else sent
+            return out 
+        return sent
 
     def repeat_sentences(self, sent):
         toks = sent_tokenize(sent)
@@ -84,8 +83,3 @@ class SummTemplates(BaseTemplate):
         out = " ".join(x for x in sent)
         return out if out !=sent  else sent
 
-
-
-if __name__ =='__main__':
-    temp = SummTemplates()
-    print(temp.add_negation('Naoki Ogane says that Chelsea have made an offer for Yoshinori Muto. The 22-year-old forward has one goal in 11 games for Japan. Muto admits that it is an "honour" to receive an offer from the Blues. Chelsea have signed a £200m sponsorship deal with Yokohama Rubber. Muto graduated from university with an economics degree two weeks ago. He would become the first Japanese player to sign for Chelsea.'))
