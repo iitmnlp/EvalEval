@@ -31,8 +31,10 @@ class QuestionGenTempaltes(BaseTemplate):
         out = " ".join(wo for wo in sen)
         return out if out!=sent else sent
 
-    def modify_names(self, sent):
-        return Perturb.perturb(sent, Perturb.change_names, n=1).data[0]
+    def change_names(self, sent):
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_names, n=1).data
+        return sent if  x==[] else x[0][1]
 
     def change_question_to_assetion(self, sent):
         q = ['what','when','where','why','how','whose','whom','who','which']
@@ -53,9 +55,5 @@ class QuestionGenTempaltes(BaseTemplate):
         if out.lower() != ss2.lower():
             out = out.replace("?",".")
         return out if out!=sent else sent
-
-class DialogueTemplates(BaseTemplate):
-    def __init__(self):
-        super(DialogueTemplates, self).__init__()
 
 

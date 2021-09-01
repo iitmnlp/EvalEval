@@ -8,10 +8,14 @@ class Data2TextTemplates(BaseTemplate):
         super(Data2TextTemplates, self).__init__()
 
     def change_numeric(self, sent):
-        return Perturb.perturb(sent, Perturb.change_number, n=1)[0]
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_number, n=1).data
+        return sent if  x==[] else x[0][1]
     
-    def modify_names(self, sent):
-        return Perturb.perturb(sent, Perturb.change_names, n=1)[0]
+    def change_names(self, sent):
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_names, n=1).data
+        return sent if  x==[] else x[0][1]
 
     def drop_phrases(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))

@@ -19,27 +19,11 @@ class TranslationTemplates(BaseTemplate):
         return out
 
     def change_numeric(self, sent):
-        return Perturb.perturb(sent, Perturb.change_number, n=1)[0]
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_number, n=1).data
+        return sent if  x==[] else x[0][1]
 
-    def modify_names(self, sent):
-        return Perturb.perturb(sent, Perturb.change_names, n=1)[0]
-
-    def repeat_phrases(self, sent):
-        pos = nltk.pos_tag(nltk.word_tokenize(sent))
-        sen = []
-        l = len(pos)
-        rep_word = ''
-        flag = 0
-        for i in range(l-1):
-            w, p = pos[i]
-            if i< l*0.25: 
-                rep_word += " " +w
-                flag = 1
-                sen.append(w)
-            else:
-                sen.append(w)
-        sen.append(pos[l-1][0])
-        sen.append(rep_word)
-        if flag==1: 
-            out = " ".join(w for w in sen)
-        return out 
+    def change_names(self, sent):
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_names, n=1).data
+        return sent if  x==[] else x[0][1]

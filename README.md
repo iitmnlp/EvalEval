@@ -30,7 +30,10 @@ Our code is based on python 3.7 and to install all the dependencies run  <br>
 ```
 pip install -r requirements.txt
 ```
-
+After installing all dependiencies run 
+```
+python3 initialise.py
+```
 ### Load the data
 
 All the datasets used in our experiments can be directly downloaded from [here](#some-link) or by running the following command

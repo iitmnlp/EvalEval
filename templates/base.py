@@ -12,7 +12,7 @@ class BaseTemplate:
     def __init__(self):
         self.nlp = spacy_nlp if spacy_nlp else spacy.load("en_core_web_sm")
 
-    def no_punct(self, sent):
+    def remove_punct(self, sent):
         return re.sub(r'[^\w\s]', ' ', sent) 
 
     def typos(self, sent):
@@ -27,15 +27,19 @@ class BaseTemplate:
         return x if x != sent else sent
 
     def add_negation(self, sent):
-        x = Perturb.add_negation(self.nlp(sent)) 
-        return x if x != sent and x else sent
+        try:
+            x = Perturb.add_negation(self.nlp(sent)) 
+            return x if x != None else sent
+        except:
+            return sent
+
 
     def jumble(self, sent):
         tokens = [i.text for i in self.nlp(sent)]
         random.shuffle(tokens)
         return ' '.join(tokens)
 
-    def remove_stopwods(self, sent):
+    def drop_stopwords(self, sent):
         all_stopwords = self.nlp.Defaults.stop_words
         x  = [word.text for word in self.nlp(sent) if not word.text in all_stopwords]
         return ' '.join(x)
@@ -60,8 +64,8 @@ class BaseTemplate:
                 sen.append(w)
         if flag == 1:
             out = " ".join(x for x in sen)
-
-        return out if flag  else sent
+            return out
+        return sent
 
     def antonym_adjective(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
@@ -83,8 +87,8 @@ class BaseTemplate:
                 sen.append(w)
         if flag == 1:
             out = " ".join(x for x in sen)
-
-        return out if flag  else sent
+            return out
+        return sent
 
     def hyponyms(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
@@ -106,7 +110,8 @@ class BaseTemplate:
                 sen.append(w)
         if flag > 0:
             out = " ".join(x for x in sen)
-        return out if flag  else sent
+            return out
+        return sent
 
     def remove_imp_adjective(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
@@ -120,7 +125,8 @@ class BaseTemplate:
         sen.append(pos[len(pos)-1][0])
         if len(sen)<len(pos):
             out = " ".join(w for w in sen)
-        return out if len(sen)<len(pos)  else sent
+            return out
+        return sent
     
     def subject_veb_dis(self, sent):
         cases = {'was':'were', 
@@ -171,4 +177,21 @@ class BaseTemplate:
         sen.append(rep_word)
         if flag==1: 
             out = " ".join(w for w in sen)
-        return out if flag  else sent
+            return out
+        return sent
+
+    def drop_adjectives(self, sent):
+        pos = nltk.pos_tag(nltk.word_tokenize(sent))
+        sen = []
+        l = len(pos)
+        for i in range(l-1):
+            w, p = pos[i]
+            if p in ['JJ', 'JJR', 'JJS'] and pos[i+1][1] in ['NN','NNP' ,'NNS' ,'NNPS']:
+                continue
+            else:
+                sen.append(w)
+        sen.append(pos[l-1][0])
+        if len(sen)<l:
+            out = " ".join(w for w in sen)
+            return out
+        return sent
