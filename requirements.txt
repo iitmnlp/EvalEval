@@ -1,3 +1,4 @@
-checklist
-spacy
-nltk
+checklist==0.0.11
+spacy==3.1.2
+pandas==1.3.2
+nltk==3.6.2

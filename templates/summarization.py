@@ -2,7 +2,7 @@ import random
 import nltk
 from nltk.tokenize import sent_tokenize
 from templates.base import BaseTemplate
-
+from checklist.perturb import Perturb
 class SummTemplates(BaseTemplate):
     def __init__(self):
         super(SummTemplates, self).__init__()
@@ -12,6 +12,11 @@ class SummTemplates(BaseTemplate):
         random.shuffle(text_split)
         return " ".join(text_split)
 
+    def change_names(self, sent):
+        text = self.nlp(sent)
+        x = Perturb.perturb([text], Perturb.change_names, n=1).data
+        return sent if  x==[] else x[0][1]
+
     def replace_nouns_prouns(self, sent):
         toks = sent_tokenize(sent)
         flag=0
@@ -20,13 +25,13 @@ class SummTemplates(BaseTemplate):
             pos = nltk.pos_tag(nltk.word_tokenize(c))
             l = len(pos)
             i = 0
-            p = pos[0]
+            w,p = pos[0]
             if p in ['NNS' ,'NNPS']:
                 sen.append('They')
                 flag = 1
                 i = 1
             elif p in ['DT']:
-                p1 = pos[1]
+                w1,p1 = pos[1]
                 if p1 in ['NNS' ,'NNPS']:
                     sen.append('They')
                     flag = 1
@@ -36,13 +41,13 @@ class SummTemplates(BaseTemplate):
                     flag = 1
                     i = 2
             while i<l:
-                p = pos[i]
+                w, p = pos[i]
                 sen.append(c)
                 i+=1
         if flag == 1:
             out = " ".join(w for w in sen)
-
-        return out if flag  else sent
+            return out 
+        return sent
 
     def drop_phrases(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
@@ -61,9 +66,10 @@ class SummTemplates(BaseTemplate):
             else:
                 sen.append(w)
         sen.append(pos[l-1][0])
-        if flag==1: #len(sen)<l:
+        if flag==1: 
             out = " ".join(w for w in sen)
-        return out if flag  else sent
+            return out 
+        return sent
 
     def repeat_sentences(self, sent):
         toks = sent_tokenize(sent)
@@ -76,3 +82,4 @@ class SummTemplates(BaseTemplate):
         sent.append(toks[0])
         out = " ".join(x for x in sent)
         return out if out !=sent  else sent
+
