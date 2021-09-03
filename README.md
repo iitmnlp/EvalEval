@@ -14,12 +14,12 @@ This repository contains the code for the paper [Perturbation Checklist for Eval
   - [Summarization](#Summarization)
   - [Question Generation](#question-generation)
 - [Human Evaluations](#human-evaluations)
-- [Metrics](#metircs)
+- [Metrics](#metrics)
 - [Citation](#citation)
 
 ## Overview
 
-In this work we provide a detailed analysis of NLG metrics by going beyound correlation with human scores. We propose a comprehensive criteria-checklist based evaluation that will act as a diagnostic tool in pointing out specific avenues of improvement in metrics. We create specific [templates](#templates) that are targeted to test the perfomance of a metric along a particular dimension. <br>
+In this work we provide a detailed analysis of NLG metrics by going beyond correlation with human scores. We propose a comprehensive criteria-checklist based evaluation that will act as a diagnostic tool in pointing out specific avenues of improvement in metrics. We create specific [templates](#templates) that are targeted to test the performance of a metric along a particular dimension. <br>
 
 Please find more details of this work in our [paper]().
 
@@ -32,15 +32,13 @@ Our code is based on python 3.7 and to install all the dependencies run  <br>
 ```
 pip install -r requirements.txt
 ```
-After installing all dependiencies run
-```
-python3 initialise.py
-```
+
 ### Load the data
 
-All the datasets used in our experiments can be directly downloaded from [here](#gdrive-link) or by running the following command
+All the datasets used in our experiments can be directly downloaded from [here](https://drive.google.com/drive/folders/1Gfk8MqlWkgVDc3_zXfHfG6I196qEu2AT?usp=sharing) or from the original papers or by running the following command
 
 ```
+cd data
 bash download.sh
 ```
 
@@ -61,20 +59,22 @@ id, references, ...
 ```
 ## Templates
 
-All the templates used in our works have been made avaialable in the `templates/` folder and are categorised in the following sections <br>
+All the templates used in our works have been made available in the `templates/` folder and are categorized in the following sections <br>
 
-All tasks have the following criteria , the table can also be found in our paper
+All tasks have the following criteria, a more detailed explanation can be found in our paper
 
 | Task| Criteria |
 | -----| ------| 
 | Machine Translation | Fluency, Adequacy |
-| Abstrative Summraization | Fluency , Coherence , Relevance, Coverage, Clarity |
-| Image Captioning | Fluency, Throughness , Correctness |
-| Data to Text Generation | Fluency ,Coverage , Relevance |
-| Question Generation | Fluency , Answerability |
-<br> <br>
+| Abstrative Summarization | Fluency , Coherence , Relevance, Coverage, Clarity |
+| Image Captioning | Fluency, Thoroughness , Correctness |
+| Data to Text Generation | Fluency ,Correctness, Coverage , Relevance |
+| Question Generation | Fluency , Answerability, Relevance |
 
-All the templates save the perturbed sentences along with the original in the `outputs/` folder. To test the metrics perfomance on these, pass the `reference` and `perturbed` sentences and compare the aggregated metric score with the annotations score given for every template.
+<br> 
+
+### Comparison
+All the templates save the perturbed sentences along with the original in the `outputs/` folder. To test the metrics performance on these, pass the `reference` and `perturbed` sentences and compare the aggregated metric score with the annotations score given for every template. In short `perturbed` sentence is now the `candidate` sentence. More details can be found in the [metrics section](#metrics)
 <br> <br>
 
 ### Data-to-Text Generation
@@ -145,7 +145,7 @@ Coming soon ..
 
 ## Citation
 
-If you find our work usefull please cite
+If you find our work useful please cite
 ```
 
 ```
