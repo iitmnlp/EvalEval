@@ -4,19 +4,19 @@ import pandas as pd
 from templates.summarization import SummTemplates
 from templates.image_captioning import ImageCapTemplates
 from templates.dialogue import DialogueTemplates
-from templates.question_generation import QuestionGenTempaltes
+from templates.question_generation import QuestionGenTemplates
 from templates.data_to_text import Data2TextTemplates
 from templates.translation import TranslationTemplates
 import argparse
 
-def _generate(args, batch):
+def _generate(args, batch, ids):
     task_list = {
         'IC': ImageCapTemplates(),
         'MT': TranslationTemplates(),
         'DG': DialogueTemplates(),
         'AS': SummTemplates(),
         'D2T': Data2TextTemplates(),
-        'QG': QuestionGenTempaltes()
+        'QG': QuestionGenTemplates()
     }
     
     _task = task_list[args.task]
@@ -24,7 +24,7 @@ def _generate(args, batch):
         template_list ={
             'Fluency': [
                 _task.jumble,
-                _task.subject_veb_dis,
+                _task.subject_verb_dis,
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
@@ -35,7 +35,7 @@ def _generate(args, batch):
             'Invariance' : [
                 _task.synonym_adjective,  
                 _task.antonym_adjective,  
-                _task.contrations,
+                _task.contractions,
                 _task.expansions,
                 _task.number2words
             ],
@@ -53,7 +53,7 @@ def _generate(args, batch):
         template_list ={
             'Fluency': [
                 _task.jumble,
-                _task.subject_veb_dis,
+                _task.subject_verb_dis,
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
@@ -65,7 +65,7 @@ def _generate(args, batch):
             'Invariance' : [
                 _task.synonym_adjective,
                 _task.antonym_adjective,
-                _task.contrations,
+                _task.contractions,
                 _task.expansions,
                 _task.number2words
             ],
@@ -85,7 +85,7 @@ def _generate(args, batch):
         template_list ={
             'Fluency': [
                 _task.jumble,
-                _task.subject_veb_dis,
+                _task.subject_verb_dis,
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
@@ -97,7 +97,7 @@ def _generate(args, batch):
             'Invariance' : [
                 _task.synonym_adjective,
                 _task.antonym_adjective,
-                _task.contrations,
+                _task.contractions,
                 _task.expansions,
                 _task.number2words
             ],
@@ -111,7 +111,7 @@ def _generate(args, batch):
             'Coverage':[
                 _task.drop_phrases,
         ],
-            'Calrity':[
+            'Clarity':[
                 _task.replace_nouns_prouns  
             ],
         }
@@ -119,7 +119,7 @@ def _generate(args, batch):
         template_list ={
             'Fluency': [
                 _task.jumble,
-                _task.subject_veb_dis,
+                _task.subject_verb_dis,
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
@@ -147,7 +147,7 @@ def _generate(args, batch):
         template_list ={
             'Fluency': [
                 _task.jumble,
-                _task.subject_veb_dis,
+                _task.subject_verb_dis,
                 _task.typos,
                 _task.remove_punct,
                 _task.drop_stopwords,
@@ -158,7 +158,7 @@ def _generate(args, batch):
             'Invariance' : [
                 _task.synonym_adjective,
                 _task.antonym_adjective,
-                _task.contrations,
+                _task.contractions,
                 _task.expansions,
                 _task.number2words
             ],
@@ -169,6 +169,38 @@ def _generate(args, batch):
                 _task.change_names
             ]
         }
+    elif args.task =='DG':
+        speaker, context = batch
+        template_list ={
+            'Fluency': [
+                _task.jumble,
+                _task.subject_verb_dis,
+                _task.typos,
+                _task.remove_punct,
+                _task.drop_stopwords,
+                _task.add_negation,   
+                _task.hyponyms,
+                _task.drop_adjectives
+            ],
+            'Invariance' : [
+                _task.synonym_adjective,
+                _task.antonym_adjective,
+                _task.contractions,
+                _task.expansions,
+                _task.number2words
+            ],
+            'Avoid repetition': [
+                _task.repeat_itself,
+                _task.repeat_last_speaker
+            ],
+            'Making sense': [
+                _task.negate_previous_utterance,
+            ],
+            'Interesting' : [
+                _task.sorry_reply,
+                _task.generic
+            ]
+        }    
     data =[]
     if args.criteria == 'all':
         templates = [j for i in template_list.values() for j in i]
@@ -178,13 +210,18 @@ def _generate(args, batch):
         except:
             print('Please use the criteria mentioned in the list')
     for operand in templates:
-        out = map(operand, batch)
-        c = len(data)
-        for i,j in zip(out, batch):
-            if i ==j:
-                continue
-            data.append({'type':operand.__name__, 'reference': j, 'perturbed': i})
-        print(len(data)-c, operand.__name__)
+        if args.task !='DG':
+            out = map(operand, batch)
+            for i,j,k in zip(out, batch, ids):
+                if i ==j:
+                    continue
+                data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
+        else:
+            out = map(operand, speaker, context)
+            for i,j,k in zip(out, speaker, ids):
+                if i ==j:
+                    continue
+                data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
 
     with open('outputs/' + args.output_file + '-'+args.criteria +'.jsonl' , 'w') as fp:
         for i in data:
@@ -198,30 +235,45 @@ if __name__ =='__main__':
                             help='The nlp task in consideration')
     parser.add_argument('--criteria',
                                 choices=['Fluency','Invariance','Adequacy','Informativeness','Coherence',
-                                'Answerability','Relevance','Correctness','Throughness','Coverage','Calrity','all'] ,
+                                'Answerability','Relevance','Correctness','Throughness','Coverage','Clarity','all'] ,
                                 type=str, help='The linguistic dimension')
     parser.add_argument('--ref_file', type=str, help='input reference file(supports cvs/jsonl')
     parser.add_argument('--output_file', default='output.jsonl', type=str, help='output file')
     args = parser.parse_args()
-    if 'csv' == args.ref_file.split('.')[-1]:
-        df = pd.read_csv(args.ref_file)
-        try:
-            batch = df['sentences'].values
-        except KeyError as msg:
-            print(msg, 'please use the given naming convention')
-            exit()
-    elif 'jsonl' == args.ref_file.split('.')[-1]:
-        batch =[]
-        with open(args.ref_file) as f:
-            for line in f:
-                data = json.loads(line)
-                try:
-                    batch.append(data['references'][0])
-                except KeyError as msg:
-                    print(msg,'please format the input file correctly')
-                    exit()
-        f.close()
+    if args.task !='DG':
+        if 'csv' == args.ref_file.split('.')[-1]:
+            df = pd.read_csv(args.ref_file)
+            try:
+                batch = list(df['sentences'].values)
+                ids = list(df['id'].values)
+            except KeyError as msg:
+                print(msg, 'please use the given naming convention')
+                exit()
+        elif 'jsonl' == args.ref_file.split('.')[-1]:
+            batch =[]
+            ids =[]
+            with open(args.ref_file) as f:
+                for line in f:
+                    data = json.loads(line)
+                    try:
+                        batch.append(data['references'])
+                        ids.append(data['id'])
+                    except KeyError as msg:
+                        print(msg,'please format the input file correctly')
+                        exit()
+            f.close()
+    elif args.task =='DG':
+        if 'csv' == args.ref_file.split('.')[-1]:
+            df = pd.read_csv(args.ref_file)
+            try:
+                context = list(df['contexts'].values)
+                batch = (list(df['resp1'].values), context)
+            except KeyError as msg:
+                print(msg, 'please use the given naming convention')
+                exit()
+        else:
+            print('Only supports csv files !')
     else:
         print('Currently only supporting csv and jsonl extensions')
         raise NotImplementedError
-    _generate(args, batch)
+    _generate(args, batch, ids)

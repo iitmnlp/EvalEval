@@ -14,7 +14,7 @@ This repository contains the code for the paper [Perturbation Checklist for Eval
   - [Summarization](#Summarization)
   - [Question Generation](#question-generation)
 - [Human Evaluations](#human-evaluations)
-- [Metrics](#metrics)
+- [Metrics](#metircs)
 - [Citation](#citation)
 
 ## Overview
@@ -32,10 +32,9 @@ Our code is based on python 3.7 and to install all the dependencies run  <br>
 ```
 pip install -r requirements.txt
 ```
-
 ### Load the data
 
-All the datasets used in our experiments can be directly downloaded from [here](https://drive.google.com/drive/folders/1Gfk8MqlWkgVDc3_zXfHfG6I196qEu2AT?usp=sharing) or from the original papers or by running the following command
+All the datasets used in our experiments can be directly downloaded from [here](#gdrive-link) or by running the following command
 
 ```
 cd data
@@ -57,11 +56,12 @@ id, references, ...
 0 , Tom went to play in the garden, ..
 1 , It will rain today, ..
 ```
+Note: 
 ## Templates
 
 All the templates used in our works have been made available in the `templates/` folder and are categorized in the following sections <br>
 
-All tasks have the following criteria, a more detailed explanation can be found in our paper
+All tasks have the following criteria , the table can also be found in our paper
 
 | Task| Criteria |
 | -----| ------| 
@@ -70,12 +70,12 @@ All tasks have the following criteria, a more detailed explanation can be found 
 | Image Captioning | Fluency, Thoroughness , Correctness |
 | Data to Text Generation | Fluency ,Correctness, Coverage , Relevance |
 | Question Generation | Fluency , Answerability, Relevance |
+| Dialogue | Fluency, Relevance, Making sense, Interesting, Avoid Repetition |
 
 <br> 
 
-### Comparison
 All the templates save the perturbed sentences along with the original in the `outputs/` folder. To test the metrics performance on these, pass the `reference` and `perturbed` sentences and compare the aggregated metric score with the annotations score given for every template. In short `perturbed` sentence is now the `candidate` sentence. More details can be found in the [metrics section](#metrics)
-<br> <br>
+<br> 
 
 ### Data-to-Text Generation
 To run the perturbations use the following command

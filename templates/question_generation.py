@@ -5,9 +5,9 @@ import nltk
 from templates.base import BaseTemplate
 from nltk.tokenize import word_tokenize
 
-class QuestionGenTempaltes(BaseTemplate):
+class QuestionGenTemplates(BaseTemplate):
     def __init__(self):
-        super(QuestionGenTempaltes, self).__init__()
+        super(QuestionGenTemplates, self).__init__()
 
     def remove_question_word(self, sent):
         q = ['what','when','where','why','how','whose','whom','who','which']

@@ -10,7 +10,6 @@ __pycache__/
 # C extensions
 *.so
 outputs/*
-data/*
 
 # Distribution / packaging
 .Python
