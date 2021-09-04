@@ -12,24 +12,12 @@ class SummTemplates(BaseTemplate):
         random.shuffle(text_split)
         return " ".join(text_split)
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
     def change_names(self, sent):
         text = self.nlp(sent)
         x = Perturb.perturb([text], Perturb.change_names, n=1).data
         return sent if  x==[] else x[0][1]
 
->>>>>>> 095dd8289cf21df387084df4ef2a632e72dc24ea
     def replace_nouns_prouns(self, sent):
-=======
-    def change_names(self, sent):
-        text = self.nlp(sent)
-        x = Perturb.perturb([text], Perturb.change_names, n=1).data
-        return sent if  x==[] else x[0][1]
-
-    def replace_nouns_pronouns(self, sent):
->>>>>>> Stashed changes
         toks = sent_tokenize(sent)
         flag=0
         sen = []
