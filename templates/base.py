@@ -16,7 +16,7 @@ class BaseTemplate:
     def typos(self, sent):
         return Perturb.add_typos(sent)
 
-    def contrations(self, sent):
+    def contractions(self, sent):
         x = Perturb.contract(sent)
         return x if x != sent else sent
 
@@ -111,22 +111,7 @@ class BaseTemplate:
             return out
         return sent
 
-    def remove_imp_adjective(self, sent):
-        pos = nltk.pos_tag(nltk.word_tokenize(sent))
-        sen = []
-        for i in range(len(pos)):
-            w, p = pos[i]
-            if p in ['JJ', 'JJR', 'JJS'] and pos[i+1][1] in ['NN','NNP' ,'NNS' ,'NNPS']:
-                continue
-            else:
-                sen.append(w)
-        sen.append(pos[len(pos)-1][0])
-        if len(sen)<len(pos):
-            out = " ".join(w for w in sen)
-            return out
-        return sent
-    
-    def subject_veb_dis(self, sent):
+    def subject_verb_dis(self, sent):
         cases = {'was':'were', 
                 'were':'was', 
                 'is':'are',
