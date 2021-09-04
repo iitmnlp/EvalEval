@@ -69,6 +69,10 @@ def _generate(args, batch, ids):
                 _task.expansions,
                 _task.number2words
             ],
+ 
+            'Calrity':[
+                _task.replace_nouns_pronouns  
+            ],
             'Correctness':[
                 _task.change_gender,
                 _task.change_attributes,
@@ -133,6 +137,11 @@ def _generate(args, batch, ids):
                 _task.contrations,
                 _task.expansions,
                 _task.number2words
+            ],
+            'Correctness':[
+                _task.change_names,
+                _task.change_numeric,
+                _task.add_negation,  
             ],
             'Relevance':[
                 _task.change_names,
@@ -223,6 +232,11 @@ def _generate(args, batch, ids):
                     continue
                 data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
 
+        for i,j,k in zip(out, batch, ids):
+            if i ==j:
+                continue
+            data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
+
     with open('outputs/' + args.output_file + '-'+args.criteria +'.jsonl' , 'w') as fp:
         for i in data:
             json.dump(i, fp)
@@ -240,6 +254,7 @@ if __name__ =='__main__':
     parser.add_argument('--ref_file', type=str, help='input reference file(supports cvs/jsonl')
     parser.add_argument('--output_file', default='output.jsonl', type=str, help='output file')
     args = parser.parse_args()
+
     if args.task !='DG':
         if 'csv' == args.ref_file.split('.')[-1]:
             df = pd.read_csv(args.ref_file)
@@ -273,6 +288,28 @@ if __name__ =='__main__':
                 exit()
         else:
             print('Only supports csv files !')
+
+    if 'csv' == args.ref_file.split('.')[-1]:
+        df = pd.read_csv(args.ref_file)
+        try:
+            batch = list(df['sentences'].values)
+            ids = list(df['id'].values)
+        except KeyError as msg:
+            print(msg, 'please use the given naming convention')
+            exit()
+    elif 'jsonl' == args.ref_file.split('.')[-1]:
+        batch =[]
+        ids =[]
+        with open(args.ref_file) as f:
+            for line in f:
+                data = json.loads(line)
+                try:
+                    batch.append(data['references'])
+                    ids.append(data['id'])
+                except KeyError as msg:
+                    print(msg,'please format the input file correctly')
+                    exit()
+        f.close()
     else:
         print('Currently only supporting csv and jsonl extensions')
         raise NotImplementedError
