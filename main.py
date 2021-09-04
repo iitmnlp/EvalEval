@@ -232,11 +232,6 @@ def _generate(args, batch, ids):
                     continue
                 data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
 
-        for i,j,k in zip(out, batch, ids):
-            if i ==j:
-                continue
-            data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
-
     with open('outputs/' + args.output_file + '-'+args.criteria +'.jsonl' , 'w') as fp:
         for i in data:
             json.dump(i, fp)
