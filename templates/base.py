@@ -6,11 +6,10 @@ import random
 from spacy.matcher import Matcher
 from num2words import num2words
 import nltk
-from initialise import spacy_nlp
 
 class BaseTemplate:
     def __init__(self):
-        self.nlp = spacy_nlp if spacy_nlp else spacy.load("en_core_web_sm")
+        self.nlp = spacy.load("en_core_web_sm")
 
     def no_punct(self, sent):
         return re.sub(r'[^\w\s]', ' ', sent) 

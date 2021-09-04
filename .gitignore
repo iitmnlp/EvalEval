@@ -9,6 +9,10 @@ __pycache__/
 
 # C extensions
 *.so
+<<<<<<< Updated upstream
+=======
+outputs/*
+>>>>>>> Stashed changes
 
 # Distribution / packaging
 .Python

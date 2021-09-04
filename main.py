@@ -4,19 +4,19 @@ import pandas as pd
 from templates.summarization import SummTemplates
 from templates.image_captioning import ImageCapTemplates
 from templates.dialogue import DialogueTemplates
-from templates.question_generation import QuestionGenTempaltes
+from templates.question_generation import QuestionGenTemplates
 from templates.data_to_text import Data2TextTemplates
 from templates.translation import TranslationTemplates
 import argparse
 
-def _generate(args, batch):
+def _generate(args, batch, ids):
     task_list = {
         'IC': ImageCapTemplates(),
         'MT': TranslationTemplates(),
         'DG': DialogueTemplates(),
         'AS': SummTemplates(),
         'D2T': Data2TextTemplates(),
-        'QG': QuestionGenTempaltes()
+        'QG': QuestionGenTemplates()
     }
     
     _task = task_list[args.task]
@@ -35,6 +35,7 @@ def _generate(args, batch):
                 _task.expansions,
                 _task.number2words
         ],
+<<<<<<< Updated upstream
     }
     #     'Adequacy': [
     #         _task.add_negation,
@@ -69,14 +70,81 @@ def _generate(args, batch):
     #         _task.drop_phrases,
     #     ]
     # }
+=======
+            'Calrity':[
+                _task.replace_nouns_pronouns  
+            ],
+        }
+    elif args.task =='D2T':
+        template_list ={
+            'Fluency': [
+                _task.jumble,
+                _task.subject_veb_dis,
+                _task.typos,
+                _task.remove_punct,
+                _task.drop_stopwords,
+                _task.hyponyms,
+                _task.drop_adjectives
+            ],
+            'Invariance' : [
+                _task.synonym_adjective,
+                _task.antonym_adjective,
+                _task.contrations,
+                _task.expansions,
+                _task.number2words
+            ],
+            'Correctness':[
+                _task.change_names,
+                _task.change_numeric,
+                _task.add_negation,  
+            ],
+            'Coverage':[
+                _task.drop_phrases,
+                _task.repeat_phrases
+            ]
+        }
+    elif args.task =='QG':
+        template_list ={
+            'Fluency': [
+                _task.jumble,
+                _task.subject_veb_dis,
+                _task.typos,
+                _task.remove_punct,
+                _task.drop_stopwords,
+                _task.add_negation,   
+                _task.hyponyms,
+                _task.drop_adjectives
+            ],
+            'Invariance' : [
+                _task.synonym_adjective,
+                _task.antonym_adjective,
+                _task.contrations,
+                _task.expansions,
+                _task.number2words
+            ],
+            'Answerability':[
+                _task.change_question_word,
+                _task.remove_question_word,
+                _task.change_question_to_assetion, 
+                _task.change_names
+            ]
+        }
+>>>>>>> Stashed changes
     data =[]
     templates = template_list[args.linguistic_criteria]
     for operand in templates:
         out = map(operand, batch)
+<<<<<<< Updated upstream
         for i,j in zip(out, batch):
             if i ==j:
                 continue
             data.append({'type':operand.__name__, 'reference': j, 'perturbed': i})
+=======
+        for i,j,k in zip(out, batch, ids):
+            if i ==j:
+                continue
+            data.append({'type':operand.__name__,'id':k, 'reference': j, 'perturbed': i})
+>>>>>>> Stashed changes
 
     with open('outputs/' + args.output_file + '-'+args.linguistic_criteria +'.jsonl' , 'w') as fp:
         for i in data:
@@ -99,17 +167,20 @@ if __name__ =='__main__':
     if 'csv' == args.ref_file.split('.')[-1]:
         df = pd.read_csv(args.ref_file)
         try:
-            batch = df['sentences'].values
+            batch = list(df['sentences'].values)
+            ids = list(df['id'].values)
         except KeyError as msg:
             print(msg, 'please use the given naming convention')
             exit()
     elif 'jsonl' == args.ref_file.split('.')[-1]:
         batch =[]
+        ids =[]
         with open(args.ref_file) as f:
             for line in f:
                 data = json.loads(line)
                 try:
-                    batch.append(data['references'][0])
+                    batch.append(data['references'])
+                    ids.append(data['id'])
                 except KeyError as msg:
                     print(msg,'please format the input file correctly')
                     exit()
@@ -117,4 +188,4 @@ if __name__ =='__main__':
     else:
         print('Currently only supporting csv and jsonl extensions')
         raise NotImplementedError
-    _generate(args, batch)
+    _generate(args, batch, ids)
