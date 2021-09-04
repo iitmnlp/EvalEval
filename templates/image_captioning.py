@@ -54,7 +54,7 @@ class ImageCapTemplates(BaseTemplate):
 
         return out if flag  else sent
 
-    def remove_objects(self, sent):
+    def drop_objects(self, sent):
         pos = nltk.pos_tag(nltk.word_tokenize(sent))
         sen = []
         l = len(pos)

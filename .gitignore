@@ -9,10 +9,15 @@ __pycache__/
 
 # C extensions
 *.so
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 outputs/*
 >>>>>>> Stashed changes
+=======
+outputs/*
+data/*
+>>>>>>> 095dd8289cf21df387084df4ef2a632e72dc24ea
 
 # Distribution / packaging
 .Python
@@ -135,6 +140,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+.jsonl
 
 # Pyre type checker
 .pyre/
