@@ -6,15 +6,11 @@ This webpage and repository are complementary to the paper [Perturbation Checkli
 
 - [Overview](#overview)
 - [Criteria](#criteria)
+  - [Correlations of criteria](#correlations-of-criteria)
 - [Templates](#templates)
-  - [Data-to-Text Generation](#data-to-text-generation)
-  - [Image Captioning](#image-captioning)
-  - [Translation](#translation)
-  - [Dialogue](#dialogue)
-  - [Summarization](#Summarization)
-  - [Question Generation](#question-generation)
+- [Code](#code)
 - [Human Evaluations](#human-evaluations)
-- [Metrics](#metircs)
+- [Metrics](#metrics)
 - [Citation](#citation)
 
 ## Overview
@@ -55,8 +51,12 @@ The following examples illustrate the perturbations created by each template for
 
 <!--- ![perturbations_examples](./figures/result_table.png) --->
 
-
 All the templates used in our works have been made available in the `templates/` folder and are categorized by the tasks <br>
+
+
+## Code
+
+The code is publicly available [here](https://github.com/iitmnlp/EvalEval).
 
 ## Human Evaluations
 
