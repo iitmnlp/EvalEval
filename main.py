@@ -198,11 +198,11 @@ def _generate(args, batch, ids):
                 _task.expansions,
                 _task.number2words
             ],
-            'Avoid repetition': [
+            'Avoid-repetition': [
                 _task.repeat_itself,
                 _task.repeat_last_speaker
             ],
-            'Making sense': [
+            'Making-sense': [
                 _task.negate_previous_utterance,
             ],
             'Interesting' : [
@@ -235,6 +235,7 @@ def _generate(args, batch, ids):
     with open('outputs/' + args.output_file + '-'+args.criteria +'.jsonl' , 'w') as fp:
         for i in data:
             json.dump(i, fp)
+            fp.write("\n")
     fp.close()
 
 if __name__ =='__main__':
@@ -262,7 +263,7 @@ if __name__ =='__main__':
         elif 'jsonl' == args.ref_file.split('.')[-1]:
             batch =[]
             ids =[]
-            with open(args.ref_file) as f:
+            with open(args.ref_file, 'r') as f:
                 for line in f:
                     data = json.loads(line)
                     try:
