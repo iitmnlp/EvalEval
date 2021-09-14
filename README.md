@@ -1,6 +1,6 @@
 # EvalEval
 
-This repository contains the code for the paper [Perturbation Checklist for Evaluating NLG Evaluation Metrics]()
+This repository contains the code for the paper [Perturbation CheckLists for Evaluating NLG Evaluation Metrics, EMNLP 2021](https://arxiv.org/abs/2109.05771)
 
 ## Contents
 
@@ -21,7 +21,7 @@ This repository contains the code for the paper [Perturbation Checklist for Eval
 
 In this work we provide a detailed analysis of NLG metrics by going beyond correlation with human scores. We propose a comprehensive criteria-checklist based evaluation that will act as a diagnostic tool in pointing out specific avenues of improvement in metrics. We create specific [templates](#templates) that are targeted to evaluate the ability of a metric to capture a particular dimension. <br>
 
-Please find more details of this work in our [paper]().
+Please find more details of this work in our [paper](https://arxiv.org/abs/2109.05771).
 
 ## Setup
 
@@ -34,7 +34,7 @@ pip install -r requirements.txt
 ```
 ### Load the data
 
-All the datasets used in our experiments can be directly downloaded from [here](#gdrive-link) or by running the following command
+All the original datasets used in our experiments can be directly downloaded by running the following command
 
 ```
 cd data
@@ -56,7 +56,9 @@ id, references, ...
 0 , Tom went to play in the garden, ..
 1 , It will rain today, ..
 ```
-Note: 
+
+**Note**:  DG follows a different format than the rest
+
 ## Templates
 
 All the templates used in our works have been made available in the `templates/` folder and are categorized in the following sections <br>
@@ -101,7 +103,6 @@ python3 main.py \
 
 To run the perturbations use the following command
 ```
-
 python3 main.py \
 --task MT  \
 --ref_file data/<data.jsonl> \
@@ -115,7 +116,7 @@ To run the perturbations use the following command
 ```
 python3 main.py \
 --task DG  \
---ref_file data/<data.jsonl> \
+--ref_file data/<data.csv> \
 --output_file example \
 --criteria <all/Fluency/Invariance/Avoid-repetition/Making-sense>
 ```
@@ -153,6 +154,13 @@ Coming soon ..
 ## Citation
 
 If you find our work useful please cite
-```
 
+```bibtex
+@InProceedings{Sai_2021_EMNLP,
+    author = {Sai, Ananya B. and Dixit, Tanay and Sheth, Dev Yashpal and Mohan, Sreyas and Khapra, Mitesh M.},
+    title = {Perturbation CheckLists for Evaluating NLG Evaluation Metrics},
+    booktitle = {Proceedings of the Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+    month = {November},
+    year = {2021}
+}
 ```

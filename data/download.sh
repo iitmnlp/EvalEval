@@ -10,5 +10,15 @@ wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1YMcf
 elif [ $task == "MT" ]
 then
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1VecSfDjPd3Pf8eacbR3pKfD7cEnAkv7j' -O mt_data.jsonl
-
+elif [ $task ==' IC' ]
+then 
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=19QGXG7YiwvYX_dEXPg0igMF3XUtsb_cR' -O ic_data.jsonl
+elif [ $task == 'QG']
+then 
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1x6OqbTHclSplk7O65n29EqVGqjn6OwZZ' -O qg_data.jsonl
+elif [ $task == 'DG' ]
+then 
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1fjxJYXwiUtkJyJQtgO1XkkiwF6om6ULE' -O dg_data.csv
+else
+echo 'please use correct ids'
 fi

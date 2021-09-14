@@ -277,8 +277,9 @@ if __name__ =='__main__':
         if 'csv' == args.ref_file.split('.')[-1]:
             df = pd.read_csv(args.ref_file)
             try:
-                context = list(df['contexts'].values)
-                batch = (list(df['resp1'].values), context)
+                context = list(df['Context'].values)
+                batch = (list(df['Response-1'].values), context)
+                ids = list(df.index)
             except KeyError as msg:
                 print(msg, 'please use the given naming convention')
                 exit()
