@@ -119,10 +119,10 @@ python3 main.py \
 To run the perturbations use the following command.
 ```
 python3 main.py \
---task DG  \
---ref_file data/<data.csv> \
---output_file example \
---criteria <all/Fluency/Invariance/Avoid-repetition/Making-sense>
+        --task DG  \
+        --ref_file data/<data.csv> \
+        --output_file example \
+        --criteria <all/Fluency/Invariance/Avoid-repetition/Making-sense>
 ```
 
 ### Abstrative Summarization
