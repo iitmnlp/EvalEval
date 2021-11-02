@@ -71,7 +71,7 @@ def _generate(args, batch, ids):
             ],
  
             'Calrity':[
-                _task.replace_nouns_pronouns  
+                #_task.replace_nouns_pronouns  
             ],
             'Correctness':[
                 _task.change_gender,
