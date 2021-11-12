@@ -9,6 +9,7 @@ import nltk
 class BaseTemplate:
     def __init__(self):
         self.nlp = spacy.load("en_core_web_sm")
+        self.stopwords = self.nlp.Defaults.stop_words
 
     def remove_punct(self, sent):
         return re.sub(r'[^\w\s]', ' ', sent) 
@@ -38,8 +39,7 @@ class BaseTemplate:
         return ' '.join(tokens)
 
     def drop_stopwords(self, sent):
-        all_stopwords = self.nlp.Defaults.stop_words
-        x  = [word.text for word in self.nlp(sent) if not word.text in all_stopwords]
+        x  = [word.text for word in self.nlp(sent) if not word.text in self.stopwords]
         return ' '.join(x)
     
     def synonym_adjective(self, sent):
