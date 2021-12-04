@@ -16,7 +16,7 @@ class ImageCapTemplates(BaseTemplate):
             w, p = pos[i]
             if p in ['JJ', 'JJR', 'JJS']:
                 try:
-                    syn = Editor.related_words(sent, w)
+                    syn = Editor().related_words(sent, w)
                 except:
                     syn = []
                 if len(syn) > 0:
@@ -39,7 +39,7 @@ class ImageCapTemplates(BaseTemplate):
             w, p = pos[i]
             if p in ['NN','NNP']: 
                 try:
-                    syn = Editor.antonyms(sent, w)
+                    syn = Editor().antonyms(sent, w)
                 except:
                     syn = []
                 if len(syn) > 0:
@@ -78,7 +78,7 @@ class ImageCapTemplates(BaseTemplate):
             w, p = pos[i]
             if p in ['NN','NNP' ,'NNS' ,'NNPS']: 
                 try:
-                    syn = Editor.synonyms(sent, w)
+                    syn = Editor().synonyms(sent, w)
                 except:
                     syn = []
                 if len(syn) > 0:
