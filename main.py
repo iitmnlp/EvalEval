@@ -286,28 +286,6 @@ if __name__ =='__main__':
         else:
             print('Only supports csv files !')
 
-    if 'csv' == args.ref_file.split('.')[-1]:
-        df = pd.read_csv(args.ref_file)
-        try:
-            batch = list(df['sentences'].values)
-            ids = list(df['id'].values)
-        except KeyError as msg:
-            print(msg, 'please use the given naming convention')
-            exit()
-    elif 'jsonl' == args.ref_file.split('.')[-1]:
-        batch =[]
-        ids =[]
-        with open(args.ref_file) as f:
-            for line in f:
-                data = json.loads(line)
-                try:
-                    batch.append(data['references'])
-                    ids.append(data['id'])
-                except KeyError as msg:
-                    print(msg,'please format the input file correctly')
-                    exit()
-        f.close()
     else:
-        print('Currently only supporting csv and jsonl extensions')
         raise NotImplementedError
     _generate(args, batch, ids)
