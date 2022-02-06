@@ -149,11 +149,25 @@ python3 main.py \
 
 ## Human Evaluations
 
-The human annotations collected for the templates can be downloaded from [here](https://drive.google.com/drive/u/0/folders/1Gfk8MqlWkgVDc3_zXfHfG6I196qEu2AT).
+The human annotations collected for the perturbation templates can be downloaded from [here](https://drive.google.com/drive/folders/1UCyPb5FM-VPggwYwsRY4d7_nNseK8ZFM?usp=sharing).
+
+We also used the human judgement scores collected along multiple criteria for different tasks from the following sources: <br>
+
+| Task| Link(s) |
+| -----| ------| 
+| AS| [data+instructions](https://github.com/Yale-LILY/SummEval#human-annotations) |
+| IC| [data](https://www.dropbox.com/s/z1l4o3j0gj8yyp8/AMT_eval.zip?dl=0) , [instructions](https://imagesdg.wordpress.com/image-to-scene-description-graph/) |
+| D2T| [data+ instructions](https://github.com/WebNLG/challenge-2020/tree/main/evaluation/human-evaluation/results) |
+| QG| [data](https://github.com/PrekshaNema25/Answerability-Metric/tree/master/annotated-questions) |
+| DG| [data+instructions](https://github.com/facebookresearch/ParlAI/tree/controllable_dialogue_archive/projects/controllable_dialogue) |
+
+<br> 
+
 
 ## Metrics
 
-Coming soon...
+We followed the implementation of metrics with the help of the following repositories:
+ For BLEU, METEOR, ROUGE-L, CIDEr, Embedding Averaging, Greedy Matching, and Vector Extrema, we use the implementation provided by [Sharma et al. (2017)](https://github.com/Maluuba/nlg-eval). For chrF++, TER, BERTScore, and BLEURT, we use the repository of [Castro Ferreira et al. (2020)](https://github.com/WebNLG/GenerationEval).  For SMS, WMDo, and Mover-Score, we use the implementation provided by [Fabbri et al. (2020)](https://github.com/Yale-LILY/SummEval). For all the remaining task-specific metrics, we use the official codes from the respective papers.
 
 ## Citation
 
